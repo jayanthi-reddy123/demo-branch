@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    environment {
+	    a = 10 
+	    name = 'name_1'
+	    city = 'city_1'
+	    result_1 = true 
+	    result_2 = false
+    }
+        stages {
+        stage ('stage_1') {
+            steps {
+                echo "This is the value ${env.a}"
+                echo "${city}"
+                echo "${result_1}"
+                script {
+                    def a = 5
+                    def result_2 = true
+                    echo "local ${result_2}"
+                    echo "${env.result_2}"
+                    // Access local variable 'a'
+                    echo "local ${a}"
+                    //Access global a
+                    echo "global ${env.a}"
+                }    
+            }            
+        }
+        stage ('stage2') {
+	    steps {
+	            echo " You are not defining any variables in the steps section"
+	            script {
+	                def a = 20
+	                echo " local ${a}"
+	            }  
+	        }
+        }
+    }
+}
